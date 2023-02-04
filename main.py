@@ -10,7 +10,7 @@ class testWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.show()
 
-        self.actionsave_Directory.triggered.connect(self.save_dir)
+        self.actionsave_Directory.triggered.connect(self.click)
         self.pushButton.clicked.connect(self.click)
         self.lineEdit.textEdited.connect(self.text_edited)
         self.comboBox.currentIndexChanged.connect(self.current_index)
