@@ -63,6 +63,7 @@ class Ui_MainWindow(object):
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
+        self.comboBox.addItem("")
         self.progressBar = QtWidgets.QProgressBar(self.centralwidget)
         self.progressBar.setGeometry(QtCore.QRect(10, 190, 331, 23))
         self.progressBar.setProperty("value", 0)
@@ -89,13 +90,14 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "YTDownloader"))
         self.pushButton.setText(_translate("MainWindow", "Скачати"))
         self.lineEdit.setPlaceholderText(_translate("MainWindow", "Введіть посилання на відео"))
-        self.label.setText(_translate("MainWindow", "YouTube Downloader v- 1.0"))
+        self.label.setText(_translate("MainWindow", "YouTube Downloader v- 1.1"))
         self.label_2.setText(_translate("MainWindow", "Обери якість відео: "))
         self.comboBox.setItemText(0, _translate("MainWindow", "Висока"))
         self.comboBox.setItemText(1, _translate("MainWindow", "Низька"))
+        self.comboBox.setItemText(2, _translate("MainWindow", "Audio only"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionsave_Directory.setText(_translate("MainWindow", "Скачати"))
         self.actionsave_Directory.setShortcut(_translate("MainWindow", "Ctrl+D"))
