@@ -1,7 +1,9 @@
 from PyQt6.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
 import sys
 import re
+import os
 from pytube import exceptions, YouTube
+from moviepy.video.io.VideoFileClip import AudioFileClip
 from SaveDirectory import Ui_MainWindow
 
 
@@ -18,6 +20,7 @@ class testWindow(QMainWindow, Ui_MainWindow):
         self.progressBar.setVisible(False)
         self.comboBox.setVisible(False)
         self.label_2.setVisible(False)
+        self.label_3.setVisible(False)
         
     link = ''
     index = 0
@@ -42,16 +45,15 @@ class testWindow(QMainWindow, Ui_MainWindow):
 
     def current_index(self):
         self.index = self.comboBox.currentIndex()
-        print(self.index)
+        
         
 
     def info_video(self, link, quality ):
-        e = ''
+        outputpath = self.save_dir()
         try:
             video = YouTube(link, on_progress_callback=self.progress_func)
 
         except exceptions.RegexMatchError:
-            #print("не правильно введене посилання на відео")
             QMessageBox.warning(self, 'Warning', "не правильно введене посилання на відео" )
             e = "не правильно введене посилання на відео"
             return e
@@ -60,23 +62,14 @@ class testWindow(QMainWindow, Ui_MainWindow):
             e = "Відео доступне лише для підписників"
             return e
         else: 
-            print(video.streams.filter(progressive=True, adaptive=True))   
-            e = f"""
-                Назва: \t\t\t\t\t {video.title}
-                Довжина відео: \t\t\t{round(video.length/60, 1)} min
-                Дата публікації: \t\t\t{video.publish_date}
-                Рейтинг: \t\t\t\t\t{video.rating}
-                Перегляди: \t\t\t\t {video.views}
-                Низька якість важить: \t{round(video.streams.get_lowest_resolution().filesize_mb, 2)} mb
-                Висока якість важить: \t{round(video.streams.get_highest_resolution().filesize_mb, 2)} mb
-                    """.expandtabs(tabsize=8)
-
+            
             if quality == 0:
                 output = video.streams.get_highest_resolution()   
-                output.download(output_path = self.save_dir())
+                output.download(output_path = outputpath)
+                
             if quality == 1:
-                output = video.streams.get_lowest_resolution()
-                output.download(output_path = self.save_dir())
+                output = video.streams.get_lowest_resolution() 
+                output.download(output_path = outputpath)
             if quality == 2:
                 audio_streams = video.streams.filter(only_audio=True)
             
@@ -93,15 +86,32 @@ class testWindow(QMainWindow, Ui_MainWindow):
                                 highest_bitrate = abr
                                 highest_bitrate_stream = stream
 
-                # виведіть інформацію про найвищий бітрейт
-                QMessageBox.information(self, 'information', f""" Найвищий бітрейт: {highest_bitrate} kbps  """ )
                 
                 # завантажте аудіо стрім з найвищим бітрейтом
                 if highest_bitrate_stream is not None:
-                    file_name = f"{video.title}.mp3"
-                    highest_bitrate_stream.download(filename = file_name, output_path = self.save_dir())
+                    file_name = f"{video.title}.mp4"
+                    highest_bitrate_stream.download(filename=file_name, output_path = outputpath)
+
+                    # сконвертувати аудіо в mp3
+                    self.label_3.setText('convert to mp3 ...')
+                    self.label_3.setVisible(True)
+                    
+                    audio = AudioFileClip(f"{outputpath}/{file_name}")
+                    audio.write_audiofile(f"{outputpath}/{video.title}.mp3", verbose=False, logger='bar')
+                    audio.close()
+                    
+
+                    #видалення файла .mp4
+                    self.label_3.setText('delet mp4 ...')
+                    os.remove(f"{outputpath}/{file_name}")
+                    self.label_3.setText('done!')
+                    QMessageBox.information(self, 'information', f""" {stream.title} \n \n Успішно скачано  """ )
+                    self.label_3.setVisible(False)
+                    
                 else:
                     QMessageBox.warning(self, 'Warning', "Не вдалося знайти аудіо стрім з найвищим бітрейтом.")
+
+                
                    
                    
 
@@ -112,9 +122,16 @@ class testWindow(QMainWindow, Ui_MainWindow):
             size = stream.filesize 
             progress = round(((float(abs(bytes_remaining-size)/size))*float(100)))
             self.progressBar.setVisible(True)
+            self.progressBar.setFormat("Download: %p%")
             self.progressBar.setValue(progress)
             if progress == 100:
                 QMessageBox.information(self, 'information', f""" {stream.title} \n \n Успішно скачано  """ )
+                self.progressBar.setValue(0)
+                self.progressBar.setVisible(False)
+                self.label_3.setVisible(False)
+            
+
+    
             
     
 

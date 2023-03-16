@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
         self.pushButton.setEnabled(False)
         self.pushButton.setGeometry(QtCore.QRect(170, 50, 181, 41))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("/home/gnojevik/2023/MyProject/images/downloaderarrow_93798.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/downloaderarrow_93798.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton.setIcon(icon)
         self.pushButton.setIconSize(QtCore.QSize(18, 18))
         self.pushButton.setObjectName("pushButton")
@@ -68,6 +68,10 @@ class Ui_MainWindow(object):
         self.progressBar.setGeometry(QtCore.QRect(10, 190, 331, 23))
         self.progressBar.setProperty("value", 0)
         self.progressBar.setObjectName("progressBar")
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(10, 160, 111, 21))
+        self.label_3.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_3.setObjectName("label_3")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 500, 20))
@@ -90,15 +94,25 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "YTDownloader"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "Скачати"))
         self.lineEdit.setPlaceholderText(_translate("MainWindow", "Введіть посилання на відео"))
-        self.label.setText(_translate("MainWindow", "YouTube Downloader v- 1.1"))
+        self.label.setText(_translate("MainWindow", "YouTube Downloader v- 1.0"))
         self.label_2.setText(_translate("MainWindow", "Обери якість відео: "))
         self.comboBox.setItemText(0, _translate("MainWindow", "Висока"))
         self.comboBox.setItemText(1, _translate("MainWindow", "Низька"))
-        self.comboBox.setItemText(2, _translate("MainWindow", "Audio only"))
+        self.comboBox.setItemText(2, _translate("MainWindow", "mp3"))
+        self.label_3.setText(_translate("MainWindow", "завантаження"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionsave_Directory.setText(_translate("MainWindow", "Скачати"))
         self.actionsave_Directory.setShortcut(_translate("MainWindow", "Ctrl+D"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec())

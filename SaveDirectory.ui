@@ -48,7 +48,7 @@
      <string>Скачати</string>
     </property>
     <property name="icon">
-     <iconset resource="../612d3db4/icon.qrc">
+     <iconset>
       <normaloff>:/icons/downloaderarrow_93798.png</normaloff>:/icons/downloaderarrow_93798.png</iconset>
     </property>
     <property name="iconSize">
@@ -151,6 +151,11 @@
       <string>Низька</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string>mp3</string>
+     </property>
+    </item>
    </widget>
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
@@ -163,6 +168,22 @@
     </property>
     <property name="value">
      <number>0</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>160</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>завантаження</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
@@ -189,7 +210,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../612d3db4/icon.qrc">
+    <iconset>
      <normaloff>:/icons/downloaderarrow_93798.png</normaloff>:/icons/downloaderarrow_93798.png</iconset>
    </property>
    <property name="text">
@@ -200,8 +221,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="../612d3db4/icon.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
